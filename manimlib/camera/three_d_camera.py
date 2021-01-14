@@ -13,7 +13,6 @@ from manimlib.utils.simple_functions import clip_in_place
 from manimlib.utils.space_ops import rotation_about_z
 from manimlib.utils.space_ops import rotation_matrix
 
-
 class ThreeDCamera(Camera):
     CONFIG = {
         "shading_factor": 0.2,

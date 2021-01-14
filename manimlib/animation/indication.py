@@ -50,8 +50,6 @@ class FocusOn(Transform):
             fill_color=self.color,
             fill_opacity=0,
         )
-
-
 class Indicate(Transform):
     CONFIG = {
         "rate_func": there_and_back,
@@ -64,8 +62,7 @@ class Indicate(Transform):
         target.scale_in_place(self.scale_factor)
         target.set_color(self.color)
         return target
-
-
+# 闪光（针对小形状，数字或者标点）
 class Flash(AnimationGroup):
     CONFIG = {
         "line_length": 0.2,
@@ -104,8 +101,7 @@ class Flash(AnimationGroup):
             ShowCreationThenDestruction(line)
             for line in self.lines
         ]
-
-
+# 圆环提示
 class CircleIndicate(Indicate):
     CONFIG = {
         "rate_func": there_and_back,
@@ -128,8 +124,7 @@ class CircleIndicate(Indicate):
     def interpolate_mobject(self, alpha):
         super().interpolate_mobject(alpha)
         self.mobject.set_stroke(opacity=alpha)
-
-
+# 特效，消失
 class ShowPassingFlash(ShowPartial):
     CONFIG = {
         "time_width": 0.1,
@@ -148,15 +143,11 @@ class ShowPassingFlash(ShowPartial):
         super().finish()
         for submob, start in self.get_all_families_zipped():
             submob.pointwise_become_partial(start, 0, 1)
-
-
 class ShowCreationThenDestruction(ShowPassingFlash):
     CONFIG = {
         "time_width": 2.0,
         "run_time": 1,
     }
-
-
 class ShowCreationThenFadeOut(Succession):
     CONFIG = {
         "remover": True,
@@ -168,8 +159,6 @@ class ShowCreationThenFadeOut(Succession):
             FadeOut(mobject),
             **kwargs
         )
-
-
 class AnimationOnSurroundingRectangle(AnimationGroup):
     CONFIG = {
         "surrounding_rectangle_config": {},
@@ -197,26 +186,20 @@ class AnimationOnSurroundingRectangle(AnimationGroup):
             self.mobject_to_surround,
             **self.surrounding_rectangle_config
         )
-
-
+# 线沿着矩形绕一圈
 class ShowPassingFlashAround(AnimationOnSurroundingRectangle):
     CONFIG = {
         "rect_animation": ShowPassingFlash
     }
-
-
 class ShowCreationThenDestructionAround(AnimationOnSurroundingRectangle):
     CONFIG = {
         "rect_animation": ShowCreationThenDestruction
     }
-
-
 class ShowCreationThenFadeAround(AnimationOnSurroundingRectangle):
     CONFIG = {
         "rect_animation": ShowCreationThenFadeOut
     }
-
-
+# 波纹效果
 class ApplyWave(Homotopy):
     CONFIG = {
         "direction": UP,
@@ -237,8 +220,6 @@ class ApplyWave(Homotopy):
             return np.array([x, y, z]) + nudge * vect
 
         super().__init__(homotopy, mobject, **kwargs)
-
-
 class WiggleOutThenIn(Animation):
     CONFIG = {
         "scale_value": 1.1,
@@ -267,8 +248,6 @@ class WiggleOutThenIn(Animation):
             wiggle(alpha, self.n_wiggles) * self.rotation_angle,
             about_point=self.get_rotate_about_point()
         )
-
-
 class TurnInsideOut(Transform):
     CONFIG = {
         "path_arc": TAU / 4,

@@ -18,8 +18,7 @@ class Animation(object):
         "name": None,
         # Does this animation add or remove a mobject form the screen
         "remover": False,
-        # If 0, the animation is applied to all submobjects
-        # at the same time
+        # If 0, the animation is applied to all submobjects at the same time
         # If 1, it is applied to each successively.
         # If 0 < lag_ratio < 1, its applied to each
         # with lagged start times
@@ -38,10 +37,9 @@ class Animation(object):
         return self.__class__.__name__ + str(self.mobject)
 
     def begin(self):
-        # This is called right as an animation is being
-        # played.  As much initialization as possible,
-        # especially any mobject copying, should live in
-        # this method
+        # This is called right as an animation is being played.  
+        # As much initialization as possible,
+        # especially any mobject copying, should live in this method
         self.starting_mobject = self.create_starting_mobject()
         if self.suspend_mobject_updating:
             # All calls to self.mobject's internal updaters
@@ -90,8 +88,7 @@ class Animation(object):
             mob.update(dt)
 
     def get_all_mobjects_to_update(self):
-        # The surrounding scene typically handles
-        # updating of self.mobject.  Besides, in
+        # The surrounding scene typically handles updating of self.mobject.  Besides, in
         # most cases its updating is suspended anyway
         return list(filter(
             lambda m: m is not self.mobject,

@@ -101,14 +101,10 @@ class Transform(Animation):
             alpha, self.path_func
         )
         return self
-
-
 class ReplacementTransform(Transform):
     CONFIG = {
         "replace_mobject_with_target_in_scene": True,
     }
-
-
 class TransformFromCopy(Transform):
     """
     Performs a reversed Transform
@@ -119,19 +115,14 @@ class TransformFromCopy(Transform):
 
     def interpolate(self, alpha):
         super().interpolate(1 - alpha)
-
-
 class ClockwiseTransform(Transform):
     CONFIG = {
         "path_arc": -np.pi
     }
-
-
 class CounterclockwiseTransform(Transform):
     CONFIG = {
         "path_arc": np.pi
     }
-
 
 class MoveToTarget(Transform):
     def __init__(self, mobject, **kwargs):
@@ -144,7 +135,6 @@ class MoveToTarget(Transform):
                 "MoveToTarget called on mobject"
                 "without attribute 'target'"
             )
-
 
 class ApplyMethod(Transform):
     def __init__(self, method, *args, **kwargs):
@@ -182,7 +172,6 @@ class ApplyMethod(Transform):
         method.__func__(target, *args, **method_kwargs)
         return target
 
-
 class ApplyPointwiseFunction(ApplyMethod):
     CONFIG = {
         "run_time": DEFAULT_POINTWISE_FUNCTION_RUN_TIME
@@ -190,7 +179,6 @@ class ApplyPointwiseFunction(ApplyMethod):
 
     def __init__(self, function, mobject, **kwargs):
         super().__init__(mobject.apply_function, function, **kwargs)
-
 
 class ApplyPointwiseFunctionToCenter(ApplyPointwiseFunction):
     def __init__(self, function, mobject, **kwargs):
@@ -203,26 +191,21 @@ class ApplyPointwiseFunctionToCenter(ApplyPointwiseFunction):
         ]
         super().begin()
 
-
 class FadeToColor(ApplyMethod):
     def __init__(self, mobject, color, **kwargs):
         super().__init__(mobject.set_color, color, **kwargs)
-
 
 class ScaleInPlace(ApplyMethod):
     def __init__(self, mobject, scale_factor, **kwargs):
         super().__init__(mobject.scale, scale_factor, **kwargs)
 
-
 class ShrinkToCenter(ScaleInPlace):
     def __init__(self, mobject, **kwargs):
         super().__init__(mobject, 0, **kwargs)
 
-
 class Restore(ApplyMethod):
     def __init__(self, mobject, **kwargs):
         super().__init__(mobject.restore, **kwargs)
-
 
 class ApplyFunction(Transform):
     def __init__(self, function, mobject, **kwargs):
@@ -234,7 +217,6 @@ class ApplyFunction(Transform):
         if not isinstance(target, Mobject):
             raise Exception("Functions passed to ApplyFunction must return object of type Mobject")
         return target
-
 
 class ApplyMatrix(ApplyPointwiseFunction):
     def __init__(self, matrix, mobject, **kwargs):
@@ -255,7 +237,6 @@ class ApplyMatrix(ApplyPointwiseFunction):
             raise Exception("Matrix has bad dimensions")
         return matrix
 
-
 class ApplyComplexFunction(ApplyMethod):
     def __init__(self, function, mobject, **kwargs):
         self.function = function
@@ -266,9 +247,6 @@ class ApplyComplexFunction(ApplyMethod):
         func1 = self.function(complex(1))
         self.path_arc = np.log(func1).imag
         super().init_path_func()
-
-###
-
 
 class CyclicReplace(Transform):
     CONFIG = {
@@ -286,12 +264,8 @@ class CyclicReplace(Transform):
             m1.move_to(m2)
         return target
 
-
 class Swap(CyclicReplace):
     pass  # Renaming, more understandable for two entries
-
-
-# TODO, this may be depricated...worth reimplementing?
 class TransformAnimations(Transform):
     CONFIG = {
         "rate_func": squish_rate_func(smooth)

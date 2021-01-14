@@ -47,7 +47,6 @@ def split_string_to_isolate_substrings(full_string, *substrings_to_isolate):
         all_substrings, *substrings_to_isolate[1:]
     )
 
-
 def split_string_list_to_isolate_substrings(string_list, *substrings_to_isolate):
     """
     Similar to split_string_to_isolate_substrings, but the first argument
